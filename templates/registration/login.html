@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            text-align: center;
+            font-size: 1.2em;
+        }
+        form {
+            display: inline-block;
+            text-align: left;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 200px;
+            padding: 8px;
+            margin: 5px;
+            font-size: 1em;
+        }
+        button[type="submit"] {
+            padding: 10px 20px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <h2>Welcome to PLP Online Store</h2>
+    <p>Type your username and password to log in:</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Login</button>
+    </form>
+</body>
+</html>
