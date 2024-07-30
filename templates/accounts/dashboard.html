@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Welcome to your Dashboard, {{ user.username }}!</h2>
+
+{% if customer %}
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Your Information</h5>
+            <p class="card-text">Name: {{ customer.user.get_full_name }}</p>
+            <p class="card-text">Email: {{ customer.user.email }}</p>
+            <!-- Add more customer information as needed -->
+        </div>
+    </div>
+{% endif %}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Recent Orders</h5>
+                <!-- Add logic to display recent orders -->
+                <p class="card-text">No recent orders.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Account Actions</h5>
+                <a href="#" class="btn btn-primary">Edit Profile</a>
+                <a href="#" class="btn btn-secondary">View All Orders</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
