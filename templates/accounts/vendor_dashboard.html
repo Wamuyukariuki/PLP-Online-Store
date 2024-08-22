@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Vendor Dashboard{% endblock %}
+
+{% block content %}
+<h2>Welcome, {{ user.username }}! Manage your products and orders below:</h2>
+
+<div class="mb-4">
+    <a href="{% url 'vendor:add_product' %}" class="btn btn-success">Add New Product</a>
+</div>
+
+<h3>Your Products</h3>
+<div class="row">
+    {% for product in products %}
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">{{ product.description }}</p>
+                <p class="card-text"><strong>Price: ${{ product.price }}</strong></p>
+                <!-- You might want to add options to edit or delete products here -->
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<h3>Customer Orders</h3>
+<div class="list-group">
+    {% for order in orders %}
+    <div class="list-group-item">
+        <h5>Order #{{ order.id }} - {{ order.product.name }}</h5>
+        <p>Customer: {{ order.customer.user.get_full_name }}</p>
+        <p>Status: {{ order.status }}</p>
+    </div>
+    {% empty %}
+    <p>No orders yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}

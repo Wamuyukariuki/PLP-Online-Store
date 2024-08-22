@@ -12,17 +12,18 @@
             <a class="navbar-brand" href="{% url 'home' %}">PLP Online Store</a>
             <div class="navbar-nav">
                 {% if user.is_authenticated %}
-                    <a class="nav-item nav-link" href="{% url 'accounts:dashboard' %}">Dashboard</a>
+                    <a class="nav-item nav-link" href="{% url 'accounts:customer_dashboard' %}">Dashboard</a>
                     <a class="nav-item nav-link" href="{% url 'accounts:logout' %}">Logout</a>
                 {% else %}
                     <a class="nav-item nav-link" href="{% url 'accounts:login' %}">Login</a>
-                    <a class="nav-item nav-link" href="{% url 'accounts:register' %}">Register</a>
+                    <a class="nav-item nav-link" href="{% url 'accounts:register_customer' %}">Register as Customer</a>
+                    <a class="nav-item nav-link" href="{% url 'accounts:register_vendor' %}">Register as Vendor</a>
                 {% endif %}
             </div>
         </div>
     </nav>
 
-    <div class="container mt-4">
+    <div class="container mt-4 text-center">
         {% block content %}
         {% endblock %}
     </div>

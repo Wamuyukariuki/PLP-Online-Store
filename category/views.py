@@ -9,7 +9,7 @@ def filter_products(request):
     try:
         min_price = Decimal(request.GET.get('min_price', '0'))
         max_price = Decimal(request.GET.get('max_price', '9999999'))
-    except:
+    except (ValueError, Decimal.InvalidOperation):
         return HttpResponseBadRequest("Invalid price range.")
 
     brand = request.GET.get('brand')
@@ -30,8 +30,8 @@ def filter_products(request):
 
 
 def search(request):
-    query = request.GET.get('q')
-    results = Products.objects.filter(title__icontains=query)
+    query = request.GET.get('q', '')
+    results = Products.objects.filter(name__icontains=query)  # Assuming 'name' is the correct field
     return render(request, 'category/search_results.html', {'results': results, 'query': query})
 
 

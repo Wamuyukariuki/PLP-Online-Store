@@ -8,7 +8,7 @@
     <p class="lead">Your one-stop shop for quality products from multiple vendors.</p>
     <hr class="my-4">
     <p>Discover amazing deals and shop with confidence.</p>
-    <a class="btn btn-primary btn-lg" href="{% url 'store:store_view' %}" role="button">Start Shopping</a>
+    <a class="btn btn-primary btn-lg" href="{% url 'store:store_home' %}" role="button">Start Shopping</a>
 </div>
 
 <div class="row mt-5 text-center">
@@ -29,42 +29,21 @@
 <div class="mt-5">
     <h2 class="mb-4">Featured Categories</h2>
     <div class="row">
+        {% for category in categories %}
         <div class="col-md-3">
             <div class="card h-100">
                 <div class="card-body text-center">
-                    <h5 class="card-title">Electronics</h5>
-                    <p class="card-text">Explore the latest gadgets and tech accessories.</p>
-                    <a href="{% url 'category:category_detail' slug='electronics' %}" class="btn btn-outline-primary">Shop Electronics</a>
+                    <h5 class="card-title">{{ category.name }}</h5>
+                    <p class="card-text">{{ category.description }}</p>
+                    <a href="{% url 'category:category_detail' slug=category.slug %}" class="btn btn-outline-primary">Shop {{ category.name }}</a>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card h-100">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Fashion</h5>
-                    <p class="card-text">Discover trendy clothing and accessories.</p>
-                    <a href="{% url 'category:category_detail' slug='fashion' %}" class="btn btn-outline-primary">Shop Fashion</a>
-                </div>
-            </div>
+        {% empty %}
+        <div class="col-12 text-center">
+            <p>No categories available at the moment.</p>
         </div>
-        <div class="col-md-3">
-            <div class="card h-100">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Home & Living</h5>
-                    <p class="card-text">Find everything you need for your home.</p>
-                    <a href="{% url 'category:category_detail' slug='home-living' %}" class="btn btn-outline-primary">Shop Home & Living</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card h-100">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Beauty & Health</h5>
-                    <p class="card-text">Explore our range of beauty and health products.</p>
-                    <a href="{% url 'category:category_detail' slug='beauty-health' %}" class="btn btn-outline-primary">Shop Beauty & Health</a>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
     </div>
 </div>
 

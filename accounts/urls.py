@@ -1,11 +1,14 @@
 from django.urls import path
-from .views import login, register, logout, dashboard_view
+from . import views
 
 app_name = 'accounts'
 
 urlpatterns = [
-    path('login/', login, name='login'),
-    path('register/', register, name='register'),
-    path('logout/', logout, name='logout'),
-    path('dashboard/', dashboard_view, name='dashboard'),
+    path('login/', views.login, name='login'),
+    path('register/customer/', views.register_customer, name='register_customer'),
+    path('register/vendor/', views.register_vendor, name='register_vendor'),
+    path('logout/', views.logout, name='logout'),
+    path('dashboard/', views.customer_dashboard, name='customer_dashboard'),
+    path('vendor/dashboard/', views.vendor_dashboard, name='vendor_dashboard'),
+    path('order/place/<int:product_id>/', views.place_order, name='place_order'),
 ]

@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 
 class Customer(models.Model):
@@ -15,7 +15,7 @@ class Customer(models.Model):
 
 
 class Address(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='addresses')
     address_type = models.CharField(max_length=50)  # e.g., 'Shipping' or 'Billing'
     street_address = models.CharField(max_length=200)
     city = models.CharField(max_length=100)
