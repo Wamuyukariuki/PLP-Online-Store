@@ -1,9 +1,13 @@
-from django.contrib.auth import authenticate, login as auth_login, logout as django_logout
+from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import logout as django_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import Group
 from django.db import IntegrityError
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render, redirect
+
+from store.forms import ProductForm
 from store.models import Products, Order
 from .forms import CustomerSignUpForm, VendorSignUpForm
 from .models import Customer, Vendor
@@ -19,17 +23,22 @@ def login(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 auth_login(request, user)
-                # Check if the user is a customer or vendor and redirect accordingly
-                if hasattr(user, 'customer'):
-                    return redirect('accounts:customer_dashboard')
-                elif hasattr(user, 'vendor'):
+
+                # Redirect based on user role
+                if user.is_superuser:
+                    return redirect('admin:index')  # Redirect to Django admin
+                elif user.groups.filter(name='Vendor').exists():
                     return redirect('accounts:vendor_dashboard')
-                else:
-                    return redirect('some_default_view')  # Add a fallback view if needed
+                elif user.groups.filter(name='Customer').exists():
+                    return redirect('accounts:customer_dashboard')
+
+                # Fallback if no specific role found
+                return redirect('home')
             else:
                 form.add_error(None, 'Invalid username or password.')
     else:
         form = AuthenticationForm()
+
     return render(request, 'registration/login.html', {'form': form})
 
 
@@ -59,9 +68,7 @@ def register_vendor(request):
             try:
                 user = form.save()
                 Vendor.objects.get_or_create(user=user)
-                vendor_group, _ = Group.objects.get_or_create(name='Vendor')
-                vendor_group.user_set.add(user)
-                return redirect('accounts:login')  # Ensure this is the correct redirect
+                return redirect('accounts:login')
             except IntegrityError:
                 form.add_error(None, 'A vendor with this username already exists.')
     else:
@@ -87,26 +94,58 @@ def place_order(request, product_id):
     """View for placing an order."""
     product = get_object_or_404(Products, id=product_id)
     if request.method == 'POST':
-        # Implement order creation logic here
-        order = Order.objects.create(customer=request.user.customer, product=product)
-        return redirect('accounts:order_success', order_id=order.id)
+        if request.user.customer:
+            order = Order.objects.create(customer=request.user.customer, product=product)
+            return redirect('accounts:order_success', order_id=order.id)
+        else:
+            return redirect('accounts:login')  # Redirect to login if not a customer
     return render(request, 'store/place_order.html', {'product': product})
+
+
+def some_default_view(request):
+    return render(request, 'some_default_template.html')
 
 
 @login_required
 def vendor_dashboard(request):
     """View for the vendor dashboard."""
-    vendor = request.user.vendor
+    vendor = get_object_or_404(Vendor, user=request.user)
     products = Products.objects.filter(vendor=vendor)
     orders = Order.objects.filter(product__vendor=vendor)
     return render(request, 'accounts/vendor_dashboard.html', {'products': products, 'orders': orders})
-
 
 @login_required
 def add_product(request):
     """View for adding a new product."""
     if request.method == 'POST':
-        # Handle product addition logic here
-        # e.g., use a form to gather product details
-        return redirect('vendor:product_list')
-    return render(request, 'vendor/add_product.html')
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            product = form.save(commit=False)
+            product.vendor = request.user.vendor
+            product.save()
+            return redirect('vendor:vendor_dashboard')
+    else:
+        form = ProductForm()
+    return render(request, 'store/add_product.html', {'form': form})
+
+@login_required
+def edit_product(request, product_id):
+    """View for editing an existing product."""
+    product = get_object_or_404(Products, id=product_id, vendor=request.user.vendor)
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            form.save()
+            return redirect('vendor:vendor_dashboard')
+    else:
+        form = ProductForm(instance=product)
+    return render(request, 'store/edit_product.html', {'form': form, 'product': product})
+
+@login_required
+def delete_product(request, product_id):
+    """View for deleting a product."""
+    product = get_object_or_404(Products, id=product_id, vendor=request.user.vendor)
+    if request.method == 'POST':
+        product.delete()
+        return redirect('vendor:vendor_dashboard')
+    return render(request, 'store/delete_product.html', {'product': product})

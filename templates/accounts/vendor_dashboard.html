@@ -3,39 +3,60 @@
 {% block title %}Vendor Dashboard{% endblock %}
 
 {% block content %}
-<h2>Welcome, {{ user.username }}! Manage your products and orders below:</h2>
+<h2>Your Products</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.name }}</td>
+            <td>${{ product.price }}</td>
+            <td>{{ product.stock }}</td>
+            <td>
+                <a href="{% url 'vendor:edit_product' product.id %}">Edit</a>
+                <a href="{% url 'vendor:delete_product' product.id %}">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">No products available.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
-<div class="mb-4">
-    <a href="{% url 'vendor:add_product' %}" class="btn btn-success">Add New Product</a>
-</div>
+<h2>Your Orders</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.product.name }}</td>
+            <td>{{ order.quantity }}</td>
+            <td>{{ order.get_status_display }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">No orders available.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
-<h3>Your Products</h3>
-<div class="row">
-    {% for product in products %}
-    <div class="col-md-4">
-        <div class="card mb-4">
-            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
-            <div class="card-body">
-                <h5 class="card-title">{{ product.name }}</h5>
-                <p class="card-text">{{ product.description }}</p>
-                <p class="card-text"><strong>Price: ${{ product.price }}</strong></p>
-                <!-- You might want to add options to edit or delete products here -->
-            </div>
-        </div>
-    </div>
-    {% endfor %}
-</div>
-
-<h3>Customer Orders</h3>
-<div class="list-group">
-    {% for order in orders %}
-    <div class="list-group-item">
-        <h5>Order #{{ order.id }} - {{ order.product.name }}</h5>
-        <p>Customer: {{ order.customer.user.get_full_name }}</p>
-        <p>Status: {{ order.status }}</p>
-    </div>
-    {% empty %}
-    <p>No orders yet.</p>
-    {% endfor %}
-</div>
+<a href="{% url 'vendor:add_product' %}">Add New Product</a>
 {% endblock %}

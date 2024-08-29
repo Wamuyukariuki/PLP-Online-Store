@@ -1,5 +1,23 @@
 from django.db import models
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
+
+
+class Profile(models.Model):
+    USER_TYPE_CHOICES = [
+        ('C', 'Customer'),
+        ('V', 'Vendor'),
+    ]
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user_type = models.CharField(max_length=1, choices=USER_TYPE_CHOICES)
+
+    def __str__(self):
+        return f"{self.user.username} ({self.get_user_type_display()})"
+
+    def save(self, *args, **kwargs):
+        if Profile.objects.exclude(pk=self.pk).filter(user=self.user).exists():
+            raise ValueError("User already has a profile of a different type")
+        super().save(*args, **kwargs)
 
 
 class Customer(models.Model):

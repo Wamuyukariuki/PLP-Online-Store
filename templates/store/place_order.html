@@ -10,7 +10,7 @@
             <h3 class="card-title">{{ product.name }}</h3>
             <p class="card-text">Price: ${{ product.price }}</p>
             <p class="card-text">{{ product.description }}</p>
-            <form method="post" action="">
+            <form method="post" action="{% url 'place_order' product.id %}">
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="quantity">Quantity:</label>
