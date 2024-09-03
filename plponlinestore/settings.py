@@ -134,4 +134,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/img')
 
 # In your settings.py
 LOGIN_REDIRECT_URL = '/accounts/dashboard/'
+LOGIN_URL = '/login/'
 

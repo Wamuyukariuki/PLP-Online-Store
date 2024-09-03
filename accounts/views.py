@@ -1,16 +1,13 @@
-from django.contrib.auth import authenticate, login as auth_login
-from django.contrib.auth import logout as django_logout
+from django.contrib.auth import authenticate, login as auth_login, logout as django_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import Group
 from django.db import IntegrityError
-from django.shortcuts import get_object_or_404
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 
-from store.forms import ProductForm
-from store.models import Products, Order
 from .forms import CustomerSignUpForm, VendorSignUpForm
 from .models import Customer, Vendor
+from store.models import Order, Products
 
 
 def login(request):
@@ -68,6 +65,8 @@ def register_vendor(request):
             try:
                 user = form.save()
                 Vendor.objects.get_or_create(user=user)
+                vendor_group, _ = Group.objects.get_or_create(name='Vendor')
+                vendor_group.user_set.add(user)
                 return redirect('accounts:login')
             except IntegrityError:
                 form.add_error(None, 'A vendor with this username already exists.')
@@ -85,25 +84,8 @@ def logout(request):
 @login_required
 def customer_dashboard(request):
     """View for the customer dashboard."""
-    products = Products.objects.all()
-    return render(request, 'accounts/customer_dashboard.html', {'products': products})
-
-
-@login_required
-def place_order(request, product_id):
-    """View for placing an order."""
-    product = get_object_or_404(Products, id=product_id)
-    if request.method == 'POST':
-        if request.user.customer:
-            order = Order.objects.create(customer=request.user.customer, product=product)
-            return redirect('accounts:order_success', order_id=order.id)
-        else:
-            return redirect('accounts:login')  # Redirect to login if not a customer
-    return render(request, 'store/place_order.html', {'product': product})
-
-
-def some_default_view(request):
-    return render(request, 'some_default_template.html')
+    orders = Order.objects.filter(customer=request.user.customer)
+    return render(request, 'accounts/customer_dashboard.html', {'orders': orders})
 
 
 @login_required
@@ -114,38 +96,16 @@ def vendor_dashboard(request):
     orders = Order.objects.filter(product__vendor=vendor)
     return render(request, 'accounts/vendor_dashboard.html', {'products': products, 'orders': orders})
 
-@login_required
-def add_product(request):
-    """View for adding a new product."""
-    if request.method == 'POST':
-        form = ProductForm(request.POST, request.FILES)
-        if form.is_valid():
-            product = form.save(commit=False)
-            product.vendor = request.user.vendor
-            product.save()
-            return redirect('vendor:vendor_dashboard')
-    else:
-        form = ProductForm()
-    return render(request, 'store/add_product.html', {'form': form})
 
 @login_required
-def edit_product(request, product_id):
-    """View for editing an existing product."""
-    product = get_object_or_404(Products, id=product_id, vendor=request.user.vendor)
-    if request.method == 'POST':
-        form = ProductForm(request.POST, request.FILES, instance=product)
-        if form.is_valid():
-            form.save()
-            return redirect('vendor:vendor_dashboard')
-    else:
-        form = ProductForm(instance=product)
-    return render(request, 'store/edit_product.html', {'form': form, 'product': product})
+def customer_orders(request):
+    """View to display orders made by a customer."""
+    orders = Order.objects.filter(customer=request.user.customer)
+    return render(request, 'accounts/customer_order.html', {'orders': orders})
+
 
 @login_required
-def delete_product(request, product_id):
-    """View for deleting a product."""
-    product = get_object_or_404(Products, id=product_id, vendor=request.user.vendor)
-    if request.method == 'POST':
-        product.delete()
-        return redirect('vendor:vendor_dashboard')
-    return render(request, 'store/delete_product.html', {'product': product})
+def vendor_orders(request):
+    """View to display orders made to a vendor."""
+    orders = Order.objects.filter(product__vendor=request.user.vendor)
+    return render(request, 'accounts/vendor_orders.html', {'orders': orders})

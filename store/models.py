@@ -3,6 +3,7 @@ from django.db import models
 from django.urls import reverse
 from category.models import Category
 from django.core.exceptions import ValidationError
+from accounts.models import Vendor  # Import Vendor model
 
 
 def validate_price(value):
@@ -21,6 +22,7 @@ class Products(models.Model):
     available = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE, related_name='products', default=1)  # Use the ID of an existing Vendor
 
     class Meta:
         ordering = ('name',)
@@ -28,7 +30,7 @@ class Products(models.Model):
         verbose_name_plural = 'products'
 
     def get_url(self):
-        return reverse('product_details', args=[self.category.slug, self.slug])
+        return reverse('store:product_details', args=[self.category.slug, self.slug])
 
     @property
     def ImageURL(self):

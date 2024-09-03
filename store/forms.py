@@ -1,4 +1,7 @@
+# forms.py
 from django import forms
+
+from category.models import Category
 from store.models import Products
 from .models import Order
 
@@ -12,7 +15,7 @@ class OrderForm(forms.ModelForm):
         product = kwargs.pop('product', None)
         super(OrderForm, self).__init__(*args, **kwargs)
 
-        # If product is provided, set it in the form as a hidden field
+        # Ensure that product is set correctly
         if product:
             self.fields['product'] = forms.ModelChoiceField(
                 queryset=Products.objects.filter(id=product.id),
@@ -20,14 +23,17 @@ class OrderForm(forms.ModelForm):
                 widget=forms.HiddenInput()
             )
         else:
-            # If no product provided, the product field must be specified manually
-            self.fields['product'] = forms.ModelChoiceField(queryset=Products.objects.all())
+            # If no product is provided, the product field should be required
+            self.fields['product'] = forms.ModelChoiceField(
+                queryset=Products.objects.all(),
+                required=True
+            )
 
 
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Products
-        fields = ['name', 'price', 'description', 'image', 'stock']  # Include the relevant fields
+        fields = ['name', 'price', 'description', 'image', 'stock', 'category']  # Include the category field
 
         # Optional: Customize the widgets for a better user experience
         widgets = {

@@ -1,7 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseBadRequest
 from decimal import Decimal
 from store.models import Products
+from .forms import CategoryForm
 from .models import Category
 
 
@@ -43,3 +44,14 @@ def category_list(request):
 def category_detail(request, slug):
     category = get_object_or_404(Category, slug=slug)
     return render(request, 'category/category_detail.html', {'category': category})
+
+
+def add_category(request):
+    if request.method == 'POST':
+        form = CategoryForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('store:add_product')  # Redirect to the product addition page or any other relevant page
+    else:
+        form = CategoryForm()
+    return render(request, 'category/add_category.html', {'form': form})

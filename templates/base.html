@@ -16,7 +16,7 @@
                     {% if user.is_authenticated %}
                         {% if user|is_member:"Vendor" %}
                             <a class="nav-item nav-link" href="{% url 'accounts:vendor_dashboard' %}">Vendor Dashboard</a>
-                            <a class="nav-item nav-link" href="{% url 'vendor:product_list' %}">Manage Products</a>
+                            <a class="nav-item nav-link" href="{% url 'store:product_list' %}">Manage Products</a>
                         {% elif user|is_member:"Customer" %}
                             <a class="nav-item nav-link" href="{% url 'accounts:customer_dashboard' %}">Customer Dashboard</a>
                         {% endif %}

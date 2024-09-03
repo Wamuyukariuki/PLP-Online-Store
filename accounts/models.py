@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 
 class Profile(models.Model):
@@ -16,7 +17,7 @@ class Profile(models.Model):
 
     def save(self, *args, **kwargs):
         if Profile.objects.exclude(pk=self.pk).filter(user=self.user).exists():
-            raise ValueError("User already has a profile of a different type")
+            raise ValidationError("User already has a profile of a different type")
         super().save(*args, **kwargs)
 
 
@@ -47,7 +48,7 @@ class Address(models.Model):
 
 class Vendor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    business_name = models.CharField(max_length=100)
+    business_name = models.CharField(max_length=100, unique=True)
     contact_number = models.CharField(max_length=20)
     address = models.CharField(max_length=200)
     website = models.URLField(blank=True, null=True)
