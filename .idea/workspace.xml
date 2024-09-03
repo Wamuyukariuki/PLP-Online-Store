@@ -5,35 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="027ed32d-3f4b-4f38-8d9f-37365d813571" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/category/forms.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/WhatsApp_Image_2024-09-03_at_10.02.43_AM.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/WhatsApp_Image_2024-09-03_at_10.02.43_AM_lCvEjyK.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store/migrations/0004_products_vendor.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/category/add_category.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/store/product_details.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/store/product_list_by_category.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/signals.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/signals.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/category/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/category/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/category/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/category/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/home/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/home/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plponlinestore/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/plponlinestore/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/store/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/store/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/store/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/store/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/accounts/vendor_dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/accounts/vendor_dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/category/category_datail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/category/category_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/category/category_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/category/category_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/category/filter_results.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/category/filter_results.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/category/search_results.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/category/search_results.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/store/add_product.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/store/add_product.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/store/product_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/store/product_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/workflows/python-app.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,27 +37,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;Django Server.PLPOnlineStore.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.pycharm.django.structure.promotion.once.per.project&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Django Server.PLPOnlineStore.executor": "Run",
+    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.pycharm.django.structure.promotion.once.per.project": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "django.template.preview.state": "SHOW_EDITOR",
+    "git-widget-placeholder": "Merging main",
+    "ignore.virus.scanning.warn.message": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\PLPOnlineStore\templates\store" />
@@ -143,7 +115,7 @@
       <workItem from="1724911564652" duration="16017000" />
       <workItem from="1725269481192" duration="989000" />
       <workItem from="1725342884047" duration="2155000" />
-      <workItem from="1725345200606" duration="11536000" />
+      <workItem from="1725345200606" duration="12351000" />
     </task>
     <servers />
   </component>
