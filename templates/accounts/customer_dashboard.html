@@ -14,7 +14,7 @@
                 <h5 class="card-title">{{ product.name }}</h5>
                 <p class="card-text">{{ product.description }}</p>
                 <p class="card-text"><strong>Price: ${{ product.price }}</strong></p>
-                <a href="{% url 'accounts:place_order' product.id %}" class="btn btn-primary">Order Now</a>
+                <a href="{% url 'store:place_order' product.id %}" class="btn btn-primary">Order Now</a>
             </div>
         </div>
     </div>

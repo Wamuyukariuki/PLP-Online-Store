@@ -15,10 +15,14 @@ class CustomerSignUpForm(UserCreationForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
+        user.email = self.cleaned_data['email']
         if commit:
             user.save()
-            Customer.objects.create(user=user)
+            Customer.objects.create(user=user, first_name=user.first_name, last_name=user.last_name)
         return user
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
 
 class VendorSignUpForm(UserCreationForm):

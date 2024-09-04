@@ -10,7 +10,7 @@
     <li class="list-group-item">
         <h5>{{ order.product.name }}</h5>
         <p>Quantity: {{ order.quantity }}</p>
-        <p>Status: {{ order.get_status_display }}</p>
+        <p>Status: {{ order.get_status_display }}</p>  <!-- Call the method here -->
         <p>Order Date: {{ order.order_date }}</p>
     </li>
     {% empty %}

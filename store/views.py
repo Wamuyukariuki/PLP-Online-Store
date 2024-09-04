@@ -3,6 +3,8 @@ from _decimal import Decimal
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
+
+from accounts.models import Customer, Vendor
 from category.models import Category
 from .forms import OrderForm, ProductForm
 from .models import Products, Order
@@ -37,18 +39,35 @@ def product_details(request, category_slug, product_slug):
 def place_order(request, product_id):
     """View for placing an order."""
     product = get_object_or_404(Products, id=product_id)
+
     if request.method == 'POST':
         form = OrderForm(request.POST, product=product)
         if form.is_valid():
             order = form.save(commit=False)
             order.customer = request.user.customer  # Associate the order with the logged-in customer
+            order.product = product  # Set the product directly from the view
             order.save()
-            return redirect('accounts:customer_dashboard')  # Redirect to a success page
+            messages.success(request, 'Order placed successfully!')
+            return redirect('accounts:customer_dashboard')
     else:
         form = OrderForm(product=product)
 
     return render(request, 'store/place_order.html', {'form': form, 'product': product})
 
+
+@login_required
+def customer_orders(request):
+    """View to display orders made by a customer."""
+    customer = get_object_or_404(Customer, user=request.user)
+    orders = Order.objects.filter(customer=customer)
+    return render(request, 'accounts/customer_order.html', {'orders': orders})
+
+@login_required
+def vendor_orders(request):
+    """View to display orders made to a vendor."""
+    vendor = get_object_or_404(Vendor, user=request.user)
+    orders = Order.objects.filter(product__vendor=vendor)
+    return render(request, 'accounts/vendor_orders.html', {'orders': orders})
 
 @login_required
 def add_product(request):
@@ -89,3 +108,5 @@ def delete_product(request, product_id):
         product.delete()
         return redirect('accounts:vendor_dashboard')
     return render(request, 'store/delete_product.html', {'product': product})
+
+

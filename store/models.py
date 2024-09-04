@@ -3,7 +3,7 @@ from django.db import models
 from django.urls import reverse
 from category.models import Category
 from django.core.exceptions import ValidationError
-from accounts.models import Vendor  # Import Vendor model
+from accounts.models import Vendor, Customer  # Import Vendor model
 
 
 def validate_price(value):
@@ -22,7 +22,7 @@ class Products(models.Model):
     available = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE, related_name='products', default=1)  # Use the ID of an existing Vendor
+    vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE, related_name='products')  # Remove default
 
     class Meta:
         ordering = ('name',)
@@ -51,7 +51,7 @@ class Order(models.Model):
         ('canceled', 'Canceled'),
     ]
 
-    customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='orders')
     product = models.ForeignKey(Products, on_delete=models.CASCADE, related_name='orders')
     quantity = models.PositiveIntegerField(default=1)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
@@ -59,4 +59,4 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Order {self.id} - {self.product.name} by {self.customer.username}"
+        return f"Order {self.id} - {self.product.name} by {self.customer.user.username}"

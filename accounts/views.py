@@ -4,10 +4,15 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import Group
 from django.db import IntegrityError
 from django.shortcuts import get_object_or_404, render, redirect
+from django.core.exceptions import ObjectDoesNotExist
+import logging
 
 from .forms import CustomerSignUpForm, VendorSignUpForm
 from .models import Customer, Vendor
 from store.models import Order, Products
+
+# Set up logging
+logger = logging.getLogger(__name__)
 
 
 def login(request):
@@ -29,10 +34,11 @@ def login(request):
                 elif user.groups.filter(name='Customer').exists():
                     return redirect('accounts:customer_dashboard')
 
-                # Fallback if no specific role found
+                # Fallback redirect if no specific role is found
                 return redirect('home')
             else:
                 form.add_error(None, 'Invalid username or password.')
+                logger.warning(f"Failed login attempt for user: {username}")
     else:
         form = AuthenticationForm()
 
@@ -52,6 +58,7 @@ def register_customer(request):
                 return redirect('accounts:login')
             except IntegrityError:
                 form.add_error(None, 'A customer with this username already exists.')
+                logger.error(f"IntegrityError during customer registration: {form.cleaned_data.get('username')}")
     else:
         form = CustomerSignUpForm()
     return render(request, 'registration/register_customer.html', {'form': form})
@@ -70,6 +77,7 @@ def register_vendor(request):
                 return redirect('accounts:login')
             except IntegrityError:
                 form.add_error(None, 'A vendor with this username already exists.')
+                logger.error(f"IntegrityError during vendor registration: {form.cleaned_data.get('username')}")
     else:
         form = VendorSignUpForm()
     return render(request, 'registration/register_vendor.html', {'form': form})
@@ -84,9 +92,10 @@ def logout(request):
 @login_required
 def customer_dashboard(request):
     """View for the customer dashboard."""
-    orders = Order.objects.filter(customer=request.user.customer)
-    return render(request, 'accounts/customer_dashboard.html', {'orders': orders})
-
+    customer = get_object_or_404(Customer, user=request.user)
+    orders = Order.objects.filter(customer=customer)
+    products = Products.objects.all()  # Fetch all products or filter as needed
+    return render(request, 'accounts/customer_dashboard.html', {'orders': orders, 'products': products})
 
 @login_required
 def vendor_dashboard(request):
@@ -95,17 +104,3 @@ def vendor_dashboard(request):
     products = Products.objects.filter(vendor=vendor)
     orders = Order.objects.filter(product__vendor=vendor)
     return render(request, 'accounts/vendor_dashboard.html', {'products': products, 'orders': orders})
-
-
-@login_required
-def customer_orders(request):
-    """View to display orders made by a customer."""
-    orders = Order.objects.filter(customer=request.user.customer)
-    return render(request, 'accounts/customer_order.html', {'orders': orders})
-
-
-@login_required
-def vendor_orders(request):
-    """View to display orders made to a vendor."""
-    orders = Order.objects.filter(product__vendor=request.user.vendor)
-    return render(request, 'accounts/vendor_orders.html', {'orders': orders})

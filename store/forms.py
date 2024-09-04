@@ -15,20 +15,11 @@ class OrderForm(forms.ModelForm):
         product = kwargs.pop('product', None)
         super(OrderForm, self).__init__(*args, **kwargs)
 
-        # Ensure that product is set correctly
+        # Set the initial product value directly if it's provided
         if product:
-            self.fields['product'] = forms.ModelChoiceField(
-                queryset=Products.objects.filter(id=product.id),
-                initial=product,
-                widget=forms.HiddenInput()
-            )
+            self.product = product
         else:
-            # If no product is provided, the product field should be required
-            self.fields['product'] = forms.ModelChoiceField(
-                queryset=Products.objects.all(),
-                required=True
-            )
-
+            self.product = None
 
 class ProductForm(forms.ModelForm):
     class Meta:
