@@ -6,24 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="027ed32d-3f4b-4f38-8d9f-37365d813571" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/category/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/category/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/category/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/category/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plponlinestore/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/plponlinestore/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plponlinestore/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/plponlinestore/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/img/WhatsApp_Image_2024-08-27_at_12.05.08_PM.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/img/WhatsApp_Image_2024-08-27_at_12.05.09_PM.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/img/WhatsApp_Image_2024-09-03_at_10.02.42_AM_1.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/img/WhatsApp_Image_2024-09-03_at_10.02.42_AM_1_bENUkIF.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/img/WhatsApp_Image_2024-09-03_at_10.02.43_AM.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/img/WhatsApp_Image_2024-09-03_at_10.02.43_AM_lCvEjyK.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/store/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/store/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/store/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/accounts/customer_dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/accounts/customer_dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/accounts/vendor_dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/accounts/vendor_dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/category/category_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/category/category_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/store/edit_product.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/store/edit_product.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/home/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/home/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/home/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home/home.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
