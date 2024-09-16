@@ -1,8 +1,7 @@
-from _decimal import Decimal
-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
+from django.utils.text import slugify
 
 from accounts.models import Customer, Vendor
 from category.models import Category
@@ -17,9 +16,14 @@ def store_view(request):
 
 @login_required(login_url='/login/')
 def product_list(request):
-    """Render a list of all products."""
-    products = Products.objects.all()
-    return render(request, 'store/product_list.html', {'products': products})
+    """Render a list of all products with search functionality."""
+    query = request.GET.get('q', '')
+    if query:
+        products = Products.objects.filter(name__icontains=query)
+    else:
+        products = Products.objects.all()
+
+    return render(request, 'store/product_list.html', {'products': products, 'query': query})
 
 
 def product_list_by_category(request, category_slug):
@@ -69,6 +73,17 @@ def vendor_orders(request):
     orders = Order.objects.filter(product__vendor=vendor)
     return render(request, 'accounts/vendor_orders.html', {'orders': orders})
 
+def unique_slug_generator(instance, new_slug=None):
+    slug = new_slug or slugify(instance.name)
+    Klass = instance.__class__
+    qs_exists = Klass.objects.filter(slug=slug, category=instance.category).exists()
+    if qs_exists:
+        new_slug = f"{slug}-{Klass.objects.count()}"
+        return unique_slug_generator(instance, new_slug=new_slug)
+    return slug
+
+
+
 @login_required
 def add_product(request):
     """View for adding a new product by the vendor."""
@@ -86,6 +101,8 @@ def add_product(request):
         form = ProductForm()
 
     return render(request, 'store/add_product.html', {'form': form})
+
+
 @login_required
 def edit_product(request, product_id):
     """View for editing an existing product."""

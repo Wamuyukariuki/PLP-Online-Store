@@ -17,7 +17,7 @@
         {% for product in products %}
         <tr>
             <td>{{ product.name }}</td>
-            <td>${{ product.price }}</td>
+            <td>KES {{ product.price }}</td>
             <td>{{ product.stock }}</td>
             <td>
                 <a href="{% url 'store:edit_product' product.id %}" class="btn btn-primary btn-sm">Edit</a>

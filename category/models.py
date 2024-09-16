@@ -5,15 +5,13 @@ from django.urls import reverse
 class Category(models.Model):
     name = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
-    keyword = models.TextField()
+    keyword = models.CharField(max_length=255)  # Adjusted to CharField
     image = models.ImageField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    STATUS = (
-        ('True', 'True'),
-        ('False', 'False')
-    )
-    status = models.CharField(max_length=10, choices=STATUS, default='True')
+
+    # Use BooleanField for status instead of string
+    status = models.BooleanField(default=True)
 
     class Meta:
         ordering = ('name',)
@@ -22,6 +20,12 @@ class Category(models.Model):
 
     def get_url(self):
         return reverse('category:products_bycategory', args=[self.slug])
+
+    @property
+    def ImageURL(self):
+        if self.image:
+            return self.image.url
+        return '/static/default-category-image.png'  # Path to default image
 
     def __str__(self):
         return self.name
